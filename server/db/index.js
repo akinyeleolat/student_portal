@@ -2,7 +2,7 @@ import path from 'path';
 import Promise from 'bluebird';
 import pgp, { QueryFile } from 'pg-promise';
 import setup from '../config/config';
-// import User from '../models/users';
+import User from '../models/users';
 // import Admin from '../models/admin';
 // import Course from '../models/course';
 // import Question from '../models/question';
@@ -20,14 +20,14 @@ const sql = (file) => {
 
 const initOptions = {
   promiseLib: Promise,
-//   extend(obj) {
-//     obj.users = new User(obj);
-//     obj.admin =  new Admin(obj);
-//     obj.course = new Course(obj);
-//     obj.question = new Question(obj);
-//     obj.results = new Result(obj);
-//     obj.answer = new Answer(obj);
-//   },
+  extend(obj) {
+    obj.users = new User(obj);
+    // obj.admin =  new Admin(obj);
+    // obj.course = new Course(obj);
+    // obj.question = new Question(obj);
+    // obj.results = new Result(obj);
+    // obj.answer = new Answer(obj);
+  },
 };
 
 const env = process.env.NODE_ENV || 'development';
