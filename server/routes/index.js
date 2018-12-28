@@ -7,8 +7,11 @@ const router = express.Router();
 
 router.post('/auth/signup', middlewares.validateSignup, UserController.signup);
 router.post('/auth/login', middlewares.validateLogin, UserController.login);
-
-// router.use('*', middlewares.verifyAdminToken);
 router.post('/auth/admin/signup', middlewares.validateSignup, AdminController.adminSignup);
+router.post('/auth/admin/login', middlewares.validateLogin, AdminController.adminLogin);
+// router.use('*', middlewares.verifyAdminToken);
+
+
+
 
 export default router;

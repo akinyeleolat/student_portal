@@ -58,6 +58,51 @@ class AdminController {
       }));
   }
 
+  /**
+  * @function adminlogin
+  * @memberof AdminController
+  *
+  * @param {Object} req - this is a request object that contains whatever is requested for
+  * @param {Object} res - this is a response object to be sent after attending to a request
+  *
+  * @static
+  */
+
+ static adminLogin(req, res) {
+  let { email } = req.body;
+  const { password } = req.body;
+  email = email && email.toString().trim();
+
+  db.task('signin', data => data.admin.findByEmail(email)
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({
+          success: 'false',
+          message: 'You have entered an invalid email or password',
+        });
+      }
+      const allowEntry = bcrypt.compareSync(password, user.admin_password);
+      if (!allowEntry) {
+        return res.status(401).json({
+          success: 'false',
+          message: 'You have entered an invalid email or password',
+        });
+      }
+      const token = jwt.sign({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, telephone: user.telephone,  user_image: user.image_url }, process.env.SECRET_KEY, { expiresIn: '2hrs' });
+      return res.status(200).json({
+        success: 'true',
+        message: 'Login was successful',
+        token,
+      });
+    }))
+    .catch((err) => {
+      return res.status(500).json({
+        success: 'false',
+        message: 'unable to login, try again!',
+        err: err.message,
+      });
+    });
+}
   
 }
 

@@ -89,14 +89,15 @@ static login(req, res) {
       }
       const isActive = process.env.USER_ACTIVE;
       if (user.user_status != isActive) {
+        // resend activation link
         return res.status(401).json({
           success: 'false',
           message: 'Your account is pending activation, kindly check your mail',
         });
-        // resend activation link
+        
       }
       else if (user.user_status == isActive) {
-        const token = jwt.sign({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, telephone: user.telephone, department: user.department, faculty: user.faculty, user_image: user.image_url }, process.env.SECRET_KEY, { expiresIn: '24hrs' });
+        const token = jwt.sign({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, telephone: user.telephone, user_image: user.image_url }, process.env.SECRET_KEY, { expiresIn: '24hrs' });
         return res.status(200).json({
           success: 'true',
           message: 'Login was successful',
