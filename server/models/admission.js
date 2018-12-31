@@ -43,6 +43,33 @@ export default class Admission {
     return this.db.one(sql,values)
   }
   /**
+  * Create a new admission enroll_info for a candidate.
+  * @param {object} values - values gotten from the body of a request.
+  */
+  createEnrollData(values){
+    const sql = 'INSERT INTO admission_enroll_info (user_id,firstChoice, secondChoice,born_again,salvation_date,salvation_experience,baptized_in_holyghost,baptism_date,baptism_experience,statement_purpose) VALUES (${user_id},${firstChoice}, ${secondChoice},${born_again},${salvation_date},${salvation_experience},${baptized_in_holyghost},${baptism_date},${baptism_experience},${statement_purpose}) RETURNING user_id,firstChoice, secondChoice,born_again,salvation_date,salvation_experience,baptized_in_holyghost,baptism_date,baptism_experience,statement_purpose'
+    return this.db.one(sql,values)
+  }
+  /**
+  * Create a new admission enroll_info for a candidate.
+  * @param {object} values - values gotten from the body of a request.
+  */
+  createReferenceData(values){
+  const sql = 'INSERT INTO admission_reference_info (user_id,reference1_name,reference1_email,reference1_telephone,reference1_work_address,reference1_home_address,reference1_relationship,reference1_relationship_duration,reference2_name,reference2_email,reference2_telephone,reference2_work_address,reference2_home_address,reference2_relationship,reference2_relationship_duration) VALUES(${user_id},${reference1_name},${reference1_email},${reference1_telephone},${reference1_work_address},${reference1_home_address},${reference1_relationship},${reference1_relationship_duration},${reference2_name},${reference2_email},${reference2_telephone},${reference2_work_address},${reference2_home_address},${reference2_relationship},${reference2_relationship_duration}) RETURNING user_id,reference1_name,reference1_email,reference1_telephone,reference1_work_address,reference1_home_address,reference1_relationship,reference1_relationship_duration,reference2_name,reference2_email,reference2_telephone,reference2_work_address,reference2_home_address,reference2_relationship,reference2_relationship_duration '
+  return this.db.one(sql,values)
+}
+  
+  /**
+  * Method for finding a details of user using the user_id.
+  * @param {number} id - the id of a user.
+  */
+ findByUserId(user_id) {
+  $table_name=this.table_name
+  const sql = 'SELECT * FROM ${table_name} WHERE user_id = $1';
+  return this.db.oneOrNone(sql,user_id);
+}
+
+  /**
   * Method for finding a user using the id.
   * @param {number} id - the id of a user.
   */

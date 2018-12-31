@@ -23,6 +23,13 @@ CREATE TABLE IF NOT EXISTS admin_users (
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+CREATE TABLE IF NOT EXISTS program(
+   id SERIAL PRIMARY KEY,
+   program_name VARCHAR(50) NOT NULL,
+   program_duration VARCHAR(50) NOT NULL,
+   reg_fee INT NOT NULL,
+   payment INT NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS admission (
 id  SERIAL PRIMARY KEY,
@@ -95,8 +102,8 @@ FOREIGN KEY(user_id) REFERENCES users( id ) ON DELETE CASCADE
 CREATE TABLE IF NOT EXISTS admission_enroll_info (
    id  SERIAL PRIMARY KEY,
    user_id INT NOT NULL, 
-   first_choice VARCHAR(255) NOT NULL,
-   second_choice VARCHAR(255)  NULL,
+   firstChoice VARCHAR(255) NOT NULL,
+   secondChoice VARCHAR(255)  NULL,
    born_again VARCHAR(50) NOT NULL,
    salvation_date DATE NOT NULL,
    salvation_experience TEXT NOT NULL,
