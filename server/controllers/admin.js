@@ -40,7 +40,7 @@ class AdminController {
             return db.admin.create({ firstname, lastname, email, telephone, password, image, adminStatus })
               .then((user) => {
                 const token = jwt.sign({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, telephone: user.telephone,  user_image: user.image_url }, process.env.SECRET_KEY, { expiresIn: '2hrs' });
-                console.log(token)
+                // console.log(token)
                 // send activation link
                 return res.status(201).json({
                   success: 'true',

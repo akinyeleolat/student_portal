@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS admission_church_info (
    position_in_church VARCHAR(255) NOT NULL,
    pastors_name VARCHAR(255) NOT NULL,
    pastors_telephone VARCHAR(50) NOT NULL,
-   pastors_email VARCHAR(50) NOT NULL,
+   pastors_email VARCHAR(50) NULL,
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    -- RELATIONSHIP --
