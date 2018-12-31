@@ -3,11 +3,7 @@ import Promise from 'bluebird';
 import pgp, { QueryFile } from 'pg-promise';
 import setup from '../config/config';
 import User from '../models/users';
-// import Admin from '../models/admin';
-// import Course from '../models/course';
-// import Question from '../models/question';
-// import Answer from '../models/answer';
-// import Result from '../models/result';
+import Admin from '../models/admin';
 
 /** @const sql - generating a full path */
 
@@ -22,7 +18,7 @@ const initOptions = {
   promiseLib: Promise,
   extend(obj) {
     obj.users = new User(obj);
-    // obj.admin =  new Admin(obj);
+    obj.admin =  new Admin(obj);
     // obj.course = new Course(obj);
     // obj.question = new Question(obj);
     // obj.results = new Result(obj);
