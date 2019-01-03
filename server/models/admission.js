@@ -23,7 +23,7 @@ export default class Admission {
   * @param {object} values - values gotten from the body of a request.
   */
   createPersonalData(values){
-    const sql ='INSERT INTO admission_personal_info (user_id,home_address,marital_status,gender,age,living_with_spouse,reason_if_no,work,work_address) VALUES(${user_id},${home_address},${marital_status},${gender},${age},${living_with_spouse},${reason_if_no},${work},${work_address}) RETURNING user_id,home_address,marital_status,gender,age,living_with_spouse,reason_if_no,work,work_address'
+    const sql ='INSERT INTO admission_personal_info (user_id,home_address,marital_status,gender,age,living_with_spouse,reason_if_no,work,work_address,submit_status) VALUES(${user_id},${home_address},${marital_status},${gender},${age},${living_with_spouse},${reason_if_no},${work},${work_address},${submit_status}) RETURNING user_id,home_address,marital_status,gender,age,living_with_spouse,reason_if_no,work,work_address,submit_status'
     return this.db.one(sql,values);
   }
   /**
@@ -31,7 +31,7 @@ export default class Admission {
   * @param {object} values - values gotten from the body of a request.
   */
    createChurchData(values){
-     const sql='INSERT INTO admission_church_info (user_id,church_name,church_address,position_in_church,pastors_name,pastors_telephone,pastors_email) VALUES(${user_id},${church_name},${church_address},${position_in_church},${pastors_name},${pastors_telephone},${pastors_email}) RETURNING user_id,church_name,church_address,position_in_church,pastors_name,pastors_telephone,pastors_email'
+     const sql='INSERT INTO admission_church_info (user_id,church_name,church_address,position_in_church,pastors_name,pastors_telephone,pastors_email, submit_status) VALUES(${user_id},${church_name},${church_address},${position_in_church},${pastors_name},${pastors_telephone},${pastors_email,submit_status}) RETURNING user_id,church_name,church_address,position_in_church,pastors_name,pastors_telephone,pastors_email, submit_status'
      return this.db.one(sql,values)
    }
    /**
@@ -63,9 +63,8 @@ export default class Admission {
   * Method for finding a details of user using the user_id.
   * @param {number} id - the id of a user.
   */
- findByUserId(user_id) {
-  $table_name=this.table_name
-  const sql = 'SELECT * FROM ${table_name} WHERE user_id = $1';
+ findByUserId(table_name,user_id) {
+  const sql = `SELECT * FROM ${table_name} WHERE user_id = ${user_id}`;
   return this.db.oneOrNone(sql,user_id);
 }
 

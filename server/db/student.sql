@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
 );
 CREATE TABLE IF NOT EXISTS program(
    id SERIAL PRIMARY KEY,
-   program_name VARCHAR(50) NOT NULL,
+   program_name VARCHAR(50) NOT NULL UNIQUE,
    program_duration VARCHAR(50) NOT NULL,
    reg_fee INT NOT NULL,
    payment INT NOT NULL
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS program(
 
 CREATE TABLE IF NOT EXISTS admission (
 id  SERIAL PRIMARY KEY,
-user_id INT NOT NULL,
+user_id INT NOT NULL UNIQUE,
 personal_info_status VARCHAR(50) NOT NULL,
 academic_info_status VARCHAR(50) NOT NULL,
 enroll_info_status  VARCHAR(50) NOT NULL,
@@ -51,7 +51,7 @@ FOREIGN KEY(user_id) REFERENCES users( id ) ON DELETE CASCADE
 
 CREATE TABLE IF NOT EXISTS admission_personal_info (
    id  SERIAL PRIMARY KEY,
-   user_id INT NOT NULL, 
+   user_id INT NOT NULL UNIQUE, 
    home_address TEXT NOT NULL,
    marital_status VARCHAR(50) NOT NULL,
    gender VARCHAR(50) NOT NULL,
@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS admission_personal_info (
    reason_if_no TEXT NULL,
    work VARCHAR(255) NOT NULL,
    work_address TEXT NOT NULL,
+   submit_status VARCHAR(50) NOT NULL,
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    -- RELATIONSHIP --
@@ -67,13 +68,14 @@ FOREIGN KEY(user_id) REFERENCES users( id ) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS admission_church_info (
    id  SERIAL PRIMARY KEY,
-   user_id INT NOT NULL,
+   user_id INT NOT NULL UNIQUE,
    church_name TEXT NOT NULL,
    church_address TEXT NOT NULL,
    position_in_church VARCHAR(255) NOT NULL,
    pastors_name VARCHAR(255) NOT NULL,
    pastors_telephone VARCHAR(50) NOT NULL,
    pastors_email VARCHAR(50) NULL,
+   submit_status VARCHAR(50) NOT NULL,
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    -- RELATIONSHIP --
@@ -81,7 +83,7 @@ FOREIGN KEY(user_id) REFERENCES users( id ) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS admission_academic_info (
    id  SERIAL PRIMARY KEY,
-   user_id INT NOT NULL, 
+   user_id INT NOT NULL UNIQUE, 
    highest_qualification VARCHAR(50) NOT NULL,
    course_of_study VARCHAR(50) NOT NULL,
    graduation_year VARCHAR(50) NOT NULL,
@@ -94,6 +96,7 @@ CREATE TABLE IF NOT EXISTS admission_academic_info (
    institution_name3 VARCHAR(255)  NULL,
    date_started3 DATE NULL,
    date_ended3 DATE NULL,
+   submit_status VARCHAR(50) NOT NULL,
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    -- RELATIONSHIP --
@@ -101,7 +104,7 @@ FOREIGN KEY(user_id) REFERENCES users( id ) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS admission_enroll_info (
    id  SERIAL PRIMARY KEY,
-   user_id INT NOT NULL, 
+   user_id INT NOT NULL UNIQUE, 
    firstChoice VARCHAR(255) NOT NULL,
    secondChoice VARCHAR(255)  NULL,
    born_again VARCHAR(50) NOT NULL,
@@ -111,6 +114,7 @@ CREATE TABLE IF NOT EXISTS admission_enroll_info (
    baptism_date DATE NOT NULL,
    baptism_experience TEXT NOT NULL,
    statement_purpose TEXT NOT NULL,
+   submit_status VARCHAR(50) NOT NULL,
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    -- RELATIONSHIP --
@@ -118,7 +122,7 @@ FOREIGN KEY(user_id) REFERENCES users( id ) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS admission_reference_info (
    id  SERIAL PRIMARY KEY,
-   user_id INT NOT NULL, 
+   user_id INT NOT NULL UNIQUE, 
    reference1_name VARCHAR(255) NOT NULL,
    reference1_email VARCHAR(50) NOT NULL,
    reference1_telephone VARCHAR(50) NOT NULL,
@@ -133,6 +137,7 @@ CREATE TABLE IF NOT EXISTS admission_reference_info (
    reference2_home_address TEXT NOT NULL,
    reference2_relationship VARCHAR(255) NOT NULL,
    reference2_relationship_duration VARCHAR(50) NOT NULL,
+   submit_status VARCHAR(50) NOT NULL,
    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
    -- RELATIONSHIP --
