@@ -29,14 +29,14 @@ const personalDataError = (message) => {
     let { 
         home_address, marital_status, gender, age, living_with_spouse, reason_if_no, work, work_address 
     } = req.body;
-    home_address = home_address && home_address.toString();
-    marital_status = marital_status && marital_status.toString().toLowerCase();
-    gender = gender && gender.toString();
+    home_address = home_address && home_address.toString().trim();
+    marital_status = marital_status && marital_status.toString().trim().toLowerCase();
+    gender = gender && gender.toString().trim();
     age = age && age.toString().replace(/\s+/g, '');
-    living_with_spouse = living_with_spouse && living_with_spouse.toString();
-    reason_if_no = reason_if_no && reason_if_no.toString();
-    work = work && work.toString();
-    work_address = work_address && work_address.toString();
+    living_with_spouse = living_with_spouse && living_with_spouse.toString().trim();
+    reason_if_no = reason_if_no && reason_if_no.toString().trim();
+    work = work && work.toString().trim();
+    work_address = work_address && work_address.toString().trim();
     const maritalStatusValue = ['single','married','divorced','widowed'];
     
     if(!home_address || home_address.trim() === '') return next (personalDataError('Home address is required'));

@@ -1,7 +1,7 @@
 import * as valid from './validate';
 
 /**
- * This is a validation for user church daata
+ * This is a validation for user church data
  * @constant
  * 
  * @param {String} message - any error message we provide
@@ -29,12 +29,12 @@ const churchDataError = (message) => {
    */
   const validateChurchData = ( req, res, next)=>{
     let { church_name,church_address,position_in_church,pastors_name,pastors_telephone,pastors_email } = req.body;
-    church_name = church_name && church_name.toString();
-    church_address = church_address && church_address.toString();
-    position_in_church = position_in_church && position_in_church.toString();
-    pastors_name = pastors_name && pastors_name.toString();
-    pastors_telephone = pastors_telephone && pastors_telephone().toString();
-    pastors_email = pastors_email && pastors_email.toString();
+    church_name = church_name && church_name.toString().trim();
+    church_address = church_address && church_address.toString().trim();
+    position_in_church = position_in_church && position_in_church.toString().trim();
+    pastors_name = pastors_name && pastors_name.toString().trim();
+    pastors_telephone = pastors_telephone && pastors_telephone().toString().replace(/\s+/g, '');
+    pastors_email = pastors_email && pastors_email.toString().trim();
 
     if(valid.checkEmpty(church_name)) return next (churchDataError('Church Name is required'));
     if(valid.checkEmpty(church_address)) return next(churchDataError('Church Address is required'));
@@ -48,3 +48,4 @@ const churchDataError = (message) => {
     if(!valid.checkEmail(pastors_email)) return next(churchDataError('Enter valid email for your pastor'));
     return next();
   }
+  export default validateChurchData;

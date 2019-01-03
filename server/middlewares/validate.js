@@ -81,3 +81,17 @@
     if(value.length = max)
     return true;
   }
+
+/**
+ * This is a validation for user  data
+ * @constant
+ * 
+ * @param {String} message - any error message we provide
+ * 
+ * @returns {Object}
+ */
+  export const validationError = (message) => {
+    const err = Error(message);
+    err.statusCode = 400;
+    return err;
+  };

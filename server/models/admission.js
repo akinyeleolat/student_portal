@@ -39,7 +39,7 @@ export default class Admission {
   * @param {object} values - values gotten from the body of a request.
   */
   createAcademicData(values){
-    const sql = 'INSERT INTO admission_academic_info (user_id,highest_qualification,course_of_study,graduation_year,institution_name1,date_started1,date_ended1,institution_name2,date_started2,date_ended2,institution_name3,date_started3,date_ended3) VALUES(${user_id},${highest_qualification},${course_of_study},${graduation_year},${institution_name1},${date_started1},${date_ended1},${institution_name2},${date_started2},${date_ended2},${institution_name3},${date_started3},${date_ended3} RETURNING user_id,highest_qualification,course_of_study,graduation_year,institution_name1,date_started1,date_ended1,institution_name2,date_started2,date_ended2,institution_name3,date_started3,date_ended3)'
+    const sql = 'INSERT INTO admission_academic_info (user_id,highest_qualification,course_of_study,graduation_year,institution_name1,date_started1,date_ended1,institution_name2,date_started2,date_ended2,institution_name3,date_started3,date_ended3,submit_status) VALUES(${user_id},${highest_qualification},${course_of_study},${graduation_year},${institution_name1},${date_started1},${date_ended1},${institution_name2},${date_started2},${date_ended2},${institution_name3},${date_started3},${date_ended3,${submit_status}} RETURNING user_id,highest_qualification,course_of_study,graduation_year,institution_name1,date_started1,date_ended1,institution_name2,date_started2,date_ended2,institution_name3,date_started3,date_ended3,submit_status)'
     return this.db.one(sql,values)
   }
   /**
@@ -47,15 +47,15 @@ export default class Admission {
   * @param {object} values - values gotten from the body of a request.
   */
   createEnrollData(values){
-    const sql = 'INSERT INTO admission_enroll_info (user_id,firstChoice, secondChoice,born_again,salvation_date,salvation_experience,baptized_in_holyghost,baptism_date,baptism_experience,statement_purpose) VALUES (${user_id},${firstChoice}, ${secondChoice},${born_again},${salvation_date},${salvation_experience},${baptized_in_holyghost},${baptism_date},${baptism_experience},${statement_purpose}) RETURNING user_id,firstChoice, secondChoice,born_again,salvation_date,salvation_experience,baptized_in_holyghost,baptism_date,baptism_experience,statement_purpose'
+    const sql = 'INSERT INTO admission_enroll_info (user_id,firstChoice, secondChoice,born_again,salvation_date,salvation_experience,baptized_in_holyghost,baptism_date,baptism_experience,statement_purpose,submit_status) VALUES (${user_id},${firstChoice}, ${secondChoice},${born_again},${salvation_date},${salvation_experience},${baptized_in_holyghost},${baptism_date},${baptism_experience},${statement_purpose},${submit_status}) RETURNING user_id,firstChoice, secondChoice,born_again,salvation_date,salvation_experience,baptized_in_holyghost,baptism_date,baptism_experience,statement_purpose,submit_status'
     return this.db.one(sql,values)
   }
   /**
-  * Create a new admission enroll_info for a candidate.
+  * Create a new admission reference for a candidate.
   * @param {object} values - values gotten from the body of a request.
   */
   createReferenceData(values){
-  const sql = 'INSERT INTO admission_reference_info (user_id,reference1_name,reference1_email,reference1_telephone,reference1_work_address,reference1_home_address,reference1_relationship,reference1_relationship_duration,reference2_name,reference2_email,reference2_telephone,reference2_work_address,reference2_home_address,reference2_relationship,reference2_relationship_duration) VALUES(${user_id},${reference1_name},${reference1_email},${reference1_telephone},${reference1_work_address},${reference1_home_address},${reference1_relationship},${reference1_relationship_duration},${reference2_name},${reference2_email},${reference2_telephone},${reference2_work_address},${reference2_home_address},${reference2_relationship},${reference2_relationship_duration}) RETURNING user_id,reference1_name,reference1_email,reference1_telephone,reference1_work_address,reference1_home_address,reference1_relationship,reference1_relationship_duration,reference2_name,reference2_email,reference2_telephone,reference2_work_address,reference2_home_address,reference2_relationship,reference2_relationship_duration '
+  const sql = 'INSERT INTO admission_reference_info (user_id,reference1_name,reference1_email,reference1_telephone,reference1_work_address,reference1_home_address,reference1_relationship,reference1_relationship_duration,reference2_name,reference2_email,reference2_telephone,reference2_work_address,reference2_home_address,reference2_relationship,reference2_relationship_duration,submit_status) VALUES(${user_id},${reference1_name},${reference1_email},${reference1_telephone},${reference1_work_address},${reference1_home_address},${reference1_relationship},${reference1_relationship_duration},${reference2_name},${reference2_email},${reference2_telephone},${reference2_work_address},${reference2_home_address},${reference2_relationship},${reference2_relationship_duration},${submit_status}) RETURNING user_id,reference1_name,reference1_email,reference1_telephone,reference1_work_address,reference1_home_address,reference1_relationship,reference1_relationship_duration,reference2_name,reference2_email,reference2_telephone,reference2_work_address,reference2_home_address,reference2_relationship,reference2_relationship_duration, submit_status'
   return this.db.one(sql,values)
 }
   
@@ -67,12 +67,18 @@ export default class Admission {
   const sql = `SELECT * FROM ${table_name} WHERE user_id = ${user_id}`;
   return this.db.oneOrNone(sql,user_id);
 }
-
+/**
+  * Method for finding users choice in the available program.
+  * @param {String} firstChoice || secondChoise - the users choice.
+  */
+  findProgram(choice) {
+  const sql = `SELECT * FROM ProgramAvailable WHERE program_name = $1`;
+  return this.db.oneOrNone(sql, choice);
+  }
   /**
   * Method for finding a user using the id.
   * @param {number} id - the id of a user.
   */
-
   findById(id) {
     const sql = 'SELECT * FROM users WHERE id = $1';
     return this.db.oneOrNone(sql, id);
