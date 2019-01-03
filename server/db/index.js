@@ -4,6 +4,7 @@ import pgp, { QueryFile } from 'pg-promise';
 import setup from '../config/config';
 import User from '../models/users';
 import Admin from '../models/admin';
+import Admission from '../models/admission';
 
 /** @const sql - generating a full path */
 
@@ -19,7 +20,7 @@ const initOptions = {
   extend(obj) {
     obj.users = new User(obj);
     obj.admin =  new Admin(obj);
-    // obj.course = new Course(obj);
+    obj.admission = new Admission(obj);
     // obj.question = new Question(obj);
     // obj.results = new Result(obj);
     // obj.answer = new Answer(obj);
